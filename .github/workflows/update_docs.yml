@@ -3,6 +3,11 @@ name: CI
 on:
   pull_request:
     branches: [ "main" ]
+
+defaults:
+    run:
+        working-directory: /home/runner/work/arduino-mini-projects/arduino-mini-projects
+
 jobs:
     update_docs:
       runs-on: ubuntu-20.04
@@ -10,6 +15,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run update readme
         run: |
-           chmod +x update_readme.sh
-           ./update_readme.sh
+            echo "Collecting directories"
+            dirs=$(find -type d -maxdepth 1 | grep -Ev "([.github][.git])" | grep -Ev "^.$")
+            echo "dirs: $dirs"
+            for i in $dirs
+            do
+                read_from=$(cat "$i"/README.md  | grep -nE "^--$" | head -1 | cut -d : -f 1)
+                read_to=$(cat "$i"/README.md | grep -nE "^--$" | tail -1 | cut -d : -f 1)
+                echo "$(cat "$i"/README.md | sed -n "$read_from,$read_to p" |  sed 's\--\\')"
+            done > README.md
+            cat README.md
         shell: bash

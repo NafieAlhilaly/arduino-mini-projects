@@ -1,6 +1,10 @@
-## Runner
+## Brief
 
-A simple runner game made with Arduino, for learning purposes.
+--
+
+A simple runner game made with Arduino, joystick used to control the character position on the LCD screen 16 x 2.
+
+--
 
 ## Components
 - Arduino UNO
