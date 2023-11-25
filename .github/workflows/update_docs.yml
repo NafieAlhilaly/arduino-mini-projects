@@ -1,0 +1,15 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+    update_docs:
+      runs-on: ubuntu-20.04
+      steps:
+      - uses: actions/checkout@v2
+      - name: Run update readme
+        run: |
+           chmod +x update_readme.sh
+           ./update_readme.sh
+        shell: bash
